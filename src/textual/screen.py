@@ -1246,7 +1246,9 @@ class Screen(Generic[ScreenResultType], Widget):
             self._scroll_required = False
 
             if self._repaint_required:
-                self._dirty_widgets.clear()
+                # This screen's repaint region may be smaller than a child's
+                # pending region. Keep every dirty widget so the compositor
+                # paints their union.
                 self._dirty_widgets.add(self)
                 self._repaint_required = False
 
